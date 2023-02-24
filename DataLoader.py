@@ -4,10 +4,10 @@ from torch.utils.data import DataLoader
 import os
 from skimage import io
 
-
+# This is the original image directory
 img_dir = "D:\iiith intern work\Images"
 
-
+#custom dataset
 class cracksegDataset(torch.utils.data.Dataset):
     def __init__(self , csv_file , img_dir , transform = None , target_transform = None):
         self.csv_file = csv_file
@@ -29,10 +29,8 @@ class cracksegDataset(torch.utils.data.Dataset):
 
         return [image , y_label]    
 
+# dataloader
 dataset = cracksegDataset(csv_file = "D:\iiith intern work\meta_data.csv", 
                           img_dir = "D:\iiith intern work\Images",
                           transform = transforms.ToTensor())
 train_loader = DataLoader(dataset = img_dir , batch_size = 16 , shuffle = True)
-
-
-
