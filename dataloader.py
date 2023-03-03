@@ -1,16 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[23]:
-
-
 import torch 
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import os
-#import cv2
-from skimage import io
-import matplotlib.pyplot as plt
 from PIL import Image
 
 img_dir = "D:\\iiith intern work\\Dataloader\\Images"
@@ -62,10 +53,3 @@ train_loader= DataLoader(train, batch_size = 16 , shuffle = True )
 val_loader = DataLoader(val , batch_size = 16 , shuffle = True)
 train_features , train_labels = next(iter(train_loader))
 val_features , val_labels = next(iter(val_loader))
-
-
-# In[ ]:
-
-
-
-
