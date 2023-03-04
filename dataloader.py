@@ -39,6 +39,7 @@ class LabelTransform:
 
 transform = transforms.Compose([
     transforms.RandomHorizontalFlip(p = 0.25),
+    transforms.Resize((256,256)),
     transforms.ToTensor(),
 ])
 
