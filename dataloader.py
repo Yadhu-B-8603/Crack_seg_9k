@@ -2,16 +2,17 @@ import torch
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import os
+from skimage import io
+import matplotlib.pyplot as plt
 from PIL import Image
 
 img_dir = "D:\\iiith intern work\\Dataloader\\Images"
 
 
 class cracksegDataset(torch.utils.data.Dataset):
-    def __init__(self , img_dir , transform , target_transform):
+    def __init__(self , img_dir , transform):
         self.img_dir = img_dir
         self.transform = transform
-        self.target_transform = target_transform
     
     def __len__(self):
         count = 0
@@ -27,27 +28,19 @@ class cracksegDataset(torch.utils.data.Dataset):
         image = Image.open(img_path)
         if self.transform:
             image = self.transform(image)
-            
+            if isinstance (self.transform,transforms.RandomHorizontalFlip) and self.transform.p>=0.25:
+                img_label = img_label.transform(method = Image.FLIP_LEFT_RIGHT)
         return image , img_label
 
-class LabelTransform:
-    def __init__(self):
-        pass
-    
-    def __call__(self , label):
-        return label
 
 transform = transforms.Compose([
     transforms.RandomHorizontalFlip(p = 0.25),
-    transforms.Resize((256,256)),
+    transforms.Resize((256 , 256)),
     transforms.ToTensor(),
 ])
 
-target_transforms = LabelTransform()
-
 dataset = cracksegDataset(img_dir = "D:\iiith intern work\Dataloader\Images",
-                          transform = transform,
-                          target_transform = target_transforms)
+                          transform = transform)
                           
 train , val = torch.utils.data.random_split(dataset , [2850 , 6645] )
 train_loader= DataLoader(train, batch_size = 16 , shuffle = True )
